@@ -1,0 +1,80 @@
+body {
+    background: #121212;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+.calculator {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px #00ffcc44;
+    max-width: 400px;
+    width: 100%;
+}
+h2 {
+    text-align: center;
+    color: #00ffcc;
+    margin-bottom: 20px;
+}
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+}
+input, select {
+    background: #2c2c2c;
+    color: #fff;
+}
+button {
+    background: #00ffcc;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    background: #00ddb3;
+}
+.clear-btn {
+    background: #ff4d4d;
+    color: #fff;
+}
+.clear-btn:hover {
+    background: #ff1a1a;
+}
+#result {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #00ffcc;
+}
+#history {
+    margin-top: 25px;
+    background: #2c2c2c;
+    padding: 15px;
+    border-radius: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+#history h3 {
+    margin-top: 0;
+    color: #00ffcc;
+}
+#history ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#history li {
+    margin: 6px 0;
+    border-bottom: 1px solid #444;
+    padding-bottom: 4px;
+}
