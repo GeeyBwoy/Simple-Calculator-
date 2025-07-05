@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stylish Calculator with History</title>
+<style>
+    body {
+        background: #121212;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .calculator {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 0 20px #00ffcc44;
+        max-width: 400px;
+        width: 100%;
+    }
+    h2 {
+        text-align: center;
+        color: #00ffcc;
+        margin-bottom: 20px;
+    }
+    input, select, button {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+    input, select {
+        background: #2c2c2c;
+        color: #fff;
+    }
+    button {
+        background: #00ffcc;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #00ddb3;
+    }
+    #result {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 1.2rem;
+        color: #00ffcc;
+    }
+    #history {
+        margin-top: 25px;
+        background: #2c2c2c;
+        padding: 15px;
+        border-radius: 12px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    #history h3 {
+        margin-top: 0;
+        color: #00ffcc;
+    }
+    #history ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    #history li {
+        margin: 6px 0;
+        border-bottom: 1px solid #444;
+        padding-bottom: 4px;
+    }
+    .clear-btn {
+        background: #ff4d4d;
+        color: #fff;
+    }
+    .clear-btn:hover {
+        background: #ff1a1a;
+    }
+</style>
+</head>
+<body>
+<div class="calculator">
+    <h2>Stylish Calculator</h2>
+    <input type="number" id="num1" placeholder="Enter first number">
+    <input type="number" id="num2" placeholder="Enter second number">
+    <select id="operation">
+        <option value="add">Addition (+)</option>
+        <option value="subtract">Subtraction (-)</option>
+        <option value="multiply">Multiplication (×)</option>
+        <option value="divide">Division (÷)</option>
+        <option value="modulus">Modulus (%)</option>
+        <option value="power">Exponential (^)</option>
+    </select>
+    <button onclick="calculate()">Calculate</button>
+    <button class="clear-btn" onclick="clearHistory()">Clear History</button>
+    <div id="result"></div>
+    <div id="history">
+        <h3>History</h3>
+        <ul id="historyList"></ul>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        const num1 = parseFloat(document.getElementById('num1').value);
+        const num2 = parseFloat(document.getElementById('num2').value);
+        const operation = document.getElementById('operation').value;
+        let output = '';
+
+        if (isNaN(num1) || isNaN(num2)) {
+            output = "Please enter valid numbers.";
+        } else {
+            switch(operation) {
+                case 'add':
+                    output = `${num1} + ${num2} = ${num1 + num2}`;
+                    break;
+                case 'subtract':
+                    output = `${num1} - ${num2} = ${num1 - num2}`;
+                    break;
+                case 'multiply':
+                    output = `${num1} × ${num2} = ${num1 * num2}`;
+                    break;
+                case 'divide':
+                    output = num2 !== 0 ? `${num1} ÷ ${num2} = ${num1 / num2}` : "Cannot divide by zero.";
+                    break;
+                case 'modulus':
+                    output = num2 !== 0 ? `${num1} % ${num2} = ${num1 % num2}` : "Cannot modulus by zero.";
+                    break;
+                case 'power':
+                    output = `${num1} ^ ${num2} = ${Math.pow(num1, num2)}`;
+                    break;
+                default:
+                    output = "Unknown operation.";
+            }
+        }
+
+        document.getElementById('result').innerText = output;
+        addToHistory(output);
+    }
+
+    function addToHistory(entry) {
+        const historyList = document.getElementById('historyList');
+        const li = document.createElement('li');
+        li.textContent = entry;
+        historyList.prepend(li);
+        saveHistory();
+    }
+
+    function clearHistory() {
+        document.getElementById('historyList').innerHTML = '';
+        localStorage.removeItem('calcHistory');
+    }
+
+    function saveHistory() {
+        const historyList = document.getElementById('historyList');
+        let history = [];
+        historyList.querySelectorAll('li').forEach(li => {
+            history.push(li.textContent);
+        });
+        localStorage.setItem('calcHistory', JSON.stringify(history));
+    }
+
+    function loadHistory() {
+        const historyList = document.getElementById('historyList');
+        let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
+        historyList.innerHTML = '';
+        history.forEach(entry => {
+            const li = document.createElement('li');
+            li.textContent = entry;
+            historyList.appendChild(li);
+        });
+    }
+
+    window.onload = loadHistory;
+</script>
+</body>
+</html>
